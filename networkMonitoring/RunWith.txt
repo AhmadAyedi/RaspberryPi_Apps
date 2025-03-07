@@ -1,0 +1,2 @@
+
+(venv1) rasp1@rasp1:~/Documents/sniff $ sudo /home/rasp1/Documents/venv1/bin/python3 final4.py

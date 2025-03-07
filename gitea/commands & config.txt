@@ -1,0 +1,65 @@
+link : https://learnembeddedsystems.co.uk/self-host-gitea-on-a-raspberry-pi
+
+
+
+Command list:
+Download and run the docker installation script:
+
+curl -fsSL https://get.docker.com -o install-docker.sh
+sudo sh install-docker.sh
+
+Add the current user to the “docker” group to enable commands to be run without sudo. Replace “pi” with your username if it differs. Lot out and back in to apply changes.
+
+sudo usermod -aG docker pi
+sudo su – pi
+
+
+docker --version
+docker compose version
+
+Create a “docker-compose.yml” file somewhere sensible and paste in the following. Remember to change the ports if there are clashes with other services. If you already have
+
+version: "3"
+
+networks:
+  gitea:
+    external: false
+
+services:
+  server:
+    image: gitea/gitea:latest
+    container_name: gitea
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+    restart: always
+    networks:
+      - gitea
+    volumes:
+      - ./gitea:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3000:3000"
+      - "222:22"
+
+
+id -u rasp3
+id -g rasp3
+docker compose up --detach
+
+sudo systemctl enable docker
+
+Now start the docker stack. Run the following command (in the directory of your docker-compose.yml file) to start the containers in the background:
+
+docker compose up --detach
+
+navigate to :
+http://192.168.1.17:3000/
+
+password :  gitea123
+admin username : ayedi
+email: ayedi.ahmad0work@gmail.com
+
+
+
