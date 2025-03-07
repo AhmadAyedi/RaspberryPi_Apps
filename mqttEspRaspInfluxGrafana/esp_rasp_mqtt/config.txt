@@ -1,0 +1,26 @@
+mkdir WORK
+cd WORK
+mkdir raspEsp
+cd raspEsp
+python3 -m venv venv
+source venv/bin/activate
+sudo apt install -y mosquitto mosquitto-clients
+sudo systemctl enable mosquitto  
+sudo systemctl start mosquitto               
+ systemctl status mosquitto                   
+pip install paho-mqtt
+nano python recieve.py
+
+
+Testing the Setup
+To manually test Mosquitto, open another terminal on the Raspberry Pi and try:
+
+bash
+Copy code
+mosquitto_sub -h localhost -t "sensor/temperature"
+Then, in another terminal, publish a test message:
+
+bash
+Copy code
+mosquitto_pub -h localhost -t "sensor/temperature" -m "25.5"
+If you see 25.5 appearing in the subscriber terminal, Mosquitto is working!
